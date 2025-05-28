@@ -12,9 +12,10 @@ interface User {
     }[];
 }
 
-export const getUsers = async () => {
+export const getUsers = async (activeOnly: boolean = true) => {
     const response = await fetch('https://api.fake-rest.refine.dev/users');
     if (!response.ok) throw new Error('Error al obtener los usuarios');
     const users: User[] = await response.json();
-    return users;
+    
+    return activeOnly ? users.filter(user => user.status) : users;
 }; 
